@@ -10,6 +10,11 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "Index fetches all posts" do
+    get posts_url
+    assert_equal 2, assigns[:posts].count
+  end
+
   test "should get new" do
     get new_post_url
     assert_response :success
@@ -17,7 +22,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create post" do
     assert_difference('Post.count') do
-      post posts_url, params: { post: { article: @post.article, likes: @post.likes, title: @post.title } }
+      post posts_url, params: { post: { title: @post.title, article: @post.article, likes: @post.likes  } }
     end
 
     assert_redirected_to post_url(Post.last)
@@ -34,7 +39,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update post" do
-    patch post_url(@post), params: { post: { article: @post.article, likes: @post.likes, title: @post.title } }
+    patch post_url(@post), params: { post: { title: @post.title, article: @post.article, likes: @post.likes } }
     assert_redirected_to post_url(@post)
   end
 
@@ -42,6 +47,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_difference('Post.count', -1) do
       delete post_url(@post)
     end
+
 
     assert_redirected_to posts_url
   end
